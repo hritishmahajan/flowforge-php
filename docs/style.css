@@ -202,16 +202,53 @@ button:active {
 .item .meta {
   color: #6b5836; font-size: .95rem; margin-top: 4px; text-transform: none;
 }
-/* workflow count as a coin */
+/* workflow count as a spinning coin */
 .pill {
   display: inline-grid; place-items: center;
   min-width: 26px; height: 26px; padding: 0 7px;
   font-family: var(--px); font-size: .55rem;
   color: var(--brick-d);
-  background: var(--coin);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 5px, var(--block-d) 5px 6px, transparent 6px),
+    var(--coin);
   border: 3px solid var(--ink);
   border-radius: 50%;
   margin-left: 8px; vertical-align: middle;
+  animation: coin-spin 2.6s ease-in-out infinite;
+}
+@keyframes coin-spin {
+  0%, 64%, 100% { transform: scaleX(1); }
+  74% { transform: scaleX(.18); }       /* edge-on flash */
+  84% { transform: scaleX(1); }
+}
+
+/* classic green warp pipe, drawn beside the run log heading */
+.pipe {
+  position: relative;
+  display: inline-block;
+  width: 22px; height: 20px;
+  margin: 0 8px 0 2px;
+  background: linear-gradient(90deg, #57d957 0 6px, #2aa53c 6px 14px, #1d7a2b 14px 100%);
+  border: 3px solid var(--ink);
+  vertical-align: -3px;
+}
+.pipe::before {
+  content: "";
+  position: absolute; top: -3px; left: -6px; right: -6px; height: 8px;
+  background: linear-gradient(90deg, #57d957 0 8px, #2aa53c 8px 18px, #1d7a2b 18px 100%);
+  border: 3px solid var(--ink);
+}
+
+/* Mario ground tiles running across the page bottom */
+.ground {
+  height: 46px;
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  background:
+    linear-gradient(180deg, #f0b15a 0 5px, transparent 5px),
+    repeating-linear-gradient(90deg, rgba(43,29,10,.5) 0 3px, transparent 3px 46px),
+    repeating-linear-gradient(0deg,  rgba(43,29,10,.5) 21px, transparent 21px 25px),
+    #d4862f;
 }
 .tag {
   display: inline-block;
