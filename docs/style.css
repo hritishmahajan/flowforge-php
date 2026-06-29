@@ -3,17 +3,18 @@
    Palette inspired by GMK-style charcoal + mustard keycaps. */
 
 :root {
-  --case:    #1b1b1d;   /* keyboard case / page bg            */
-  --plate:   #232325;   /* mounting plate / panels            */
-  --cap-top: #3a3a3d;   /* keycap top surface (highlight)     */
-  --cap-bot: #2d2d30;   /* keycap bottom surface              */
-  --cap-shadow: #141416;/* the gap the cap casts onto         */
-  --legend:  #e6e6e8;   /* primary legend text                */
-  --legend-2:#9a9aa0;   /* sub-legend / muted                 */
-  --line:    #3b3b3f;
-  --accent:  #e0a72e;   /* mustard modifier-cap accent        */
-  --accent-d:#9c7414;
-  --ok:      #7fae6a;
+  --case:    #0b0b0d;   /* keyboard case / page bg — deep near-black */
+  --plate:   #131317;   /* mounting plate / panels            */
+  --cap-top: #26262b;   /* keycap top surface (highlight)     */
+  --cap-bot: #16161a;   /* keycap bottom surface              */
+  --cap-shadow: #000000;/* the gap the cap casts onto         */
+  --legend:  #f4f4f6;   /* primary legend text — high contrast */
+  --legend-2:#86868f;   /* sub-legend / muted                 */
+  --line:    #2c2c32;
+  --accent:  #ffcb47;   /* crisp modern gold                  */
+  --accent-2:#ffd96e;   /* highlight for the gold gradient    */
+  --accent-d:#c98f1e;   /* shaded edge                        */
+  --ok:      #6fd08a;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
@@ -26,9 +27,7 @@ body {
   line-height: 1.55;
   color: var(--legend);
   background:
-    linear-gradient(0deg, rgba(0,0,0,.25), rgba(0,0,0,.25)),
-    repeating-linear-gradient(90deg, transparent 0 39px, rgba(255,255,255,.015) 39px 40px),
-    repeating-linear-gradient(0deg,  transparent 0 39px, rgba(255,255,255,.015) 39px 40px),
+    radial-gradient(1100px 520px at 50% -8%, rgba(255,203,71,.05), transparent 60%),
     var(--case);
 }
 
@@ -87,13 +86,13 @@ main {
 /* ---- Cards rendered as keycaps ------------------------------------------ */
 .card {
   background: linear-gradient(180deg, var(--cap-top), var(--cap-bot));
-  border: 1px solid var(--cap-shadow);
-  border-radius: 9px;
-  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.07),   /* top edge highlight */
-    0 4px 0 var(--cap-shadow),             /* the keycap's height */
-    0 8px 14px rgba(0,0,0,.35);
+    inset 0 1px 0 rgba(255,255,255,.06),   /* top edge highlight */
+    0 2px 0 #000,                          /* a thin keycap ledge */
+    0 14px 30px -10px rgba(0,0,0,.7);      /* soft ambient lift  */
 }
 .card.wide { grid-column: 1 / -1; }
 
@@ -136,15 +135,15 @@ input, select, textarea {
   font-family: var(--mono);
   font-size: .86rem;
   color: var(--legend);
-  background: var(--case);
+  background: #050506;
   border: 1px solid var(--line);
-  border-radius: 5px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,.4);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.55);
 }
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,.4), 0 0 0 2px rgba(224,167,46,.18);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.55), 0 0 0 3px rgba(255,203,71,.16);
 }
 textarea { resize: vertical; }
 .row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; }
@@ -158,30 +157,31 @@ button {
   font-family: var(--mono);
   font-size: .76rem; font-weight: 700;
   letter-spacing: .12em; text-transform: uppercase;
-  color: #211c08;
-  background: linear-gradient(180deg, #ecb845, var(--accent));
+  color: #1a1400;
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
   border: 1px solid var(--accent-d);
-  border-radius: 6px;
+  border-radius: 9px;
   cursor: pointer;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.4),
-    0 4px 0 var(--accent-d),
-    0 6px 10px rgba(0,0,0,.35);
-  transition: transform .04s ease, box-shadow .04s ease;
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 3px 0 var(--accent-d),
+    0 10px 20px -6px rgba(255,203,71,.28);
+  transition: transform .08s ease, box-shadow .08s ease, filter .15s ease;
 }
+button:hover { filter: brightness(1.04); }
 button:active {
   transform: translateY(3px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 var(--accent-d);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 0 0 var(--accent-d);
 }
 
 /* ---- Lists -------------------------------------------------------------- */
 .list { display: flex; flex-direction: column; gap: 10px; }
 .item {
-  background: var(--case);
+  background: #050506;
   border: 1px solid var(--line);
   border-left: 3px solid var(--accent);
-  border-radius: 5px;
-  padding: 13px 14px;
+  border-radius: 9px;
+  padding: 14px 15px;
   font-size: .82rem;
 }
 .item b { color: var(--legend); font-weight: 700; }
