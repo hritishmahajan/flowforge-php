@@ -1,64 +1,223 @@
+/* FlowForge — interface styled after a mechanical keyboard:
+   keycap surfaces, monospace legends, tactile press states.
+   Palette inspired by GMK-style charcoal + mustard keycaps. */
+
 :root {
-  --bg: #0d1117; --card: #161b22; --line: #30363d;
-  --fg: #e6edf3; --muted: #8b949e; --accent: #7c5cff; --ok: #3fb950;
+  --case:    #1b1b1d;   /* keyboard case / page bg            */
+  --plate:   #232325;   /* mounting plate / panels            */
+  --cap-top: #3a3a3d;   /* keycap top surface (highlight)     */
+  --cap-bot: #2d2d30;   /* keycap bottom surface              */
+  --cap-shadow: #141416;/* the gap the cap casts onto         */
+  --legend:  #e6e6e8;   /* primary legend text                */
+  --legend-2:#9a9aa0;   /* sub-legend / muted                 */
+  --line:    #3b3b3f;
+  --accent:  #e0a72e;   /* mustard modifier-cap accent        */
+  --accent-d:#9c7414;
+  --ok:      #7fae6a;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
+
 * { box-sizing: border-box; }
+
 body {
-  margin: 0; font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  background: var(--bg); color: var(--fg);
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--legend);
+  background:
+    linear-gradient(0deg, rgba(0,0,0,.25), rgba(0,0,0,.25)),
+    repeating-linear-gradient(90deg, transparent 0 39px, rgba(255,255,255,.015) 39px 40px),
+    repeating-linear-gradient(0deg,  transparent 0 39px, rgba(255,255,255,.015) 39px 40px),
+    var(--case);
 }
+
+/* ---- Top bar: the keyboard's badge plate -------------------------------- */
 header {
-  padding: 32px 24px; text-align: center;
-  background: radial-gradient(900px 300px at 50% -50%, #2a1f5c 0%, transparent 70%);
-  border-bottom: 1px solid var(--line);
+  padding: 30px 24px 26px;
+  text-align: center;
+  background: var(--plate);
+  border-bottom: 1px solid var(--cap-shadow);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.04);
 }
-header h1 { margin: 0; font-size: 2.4rem; }
-header p { color: var(--muted); max-width: 620px; margin: 8px auto; }
+header h1 {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  text-indent: .42em;            /* optical centering for the tracking */
+}
+header .sub {
+  color: var(--legend-2);
+  max-width: 600px;
+  margin: 10px auto 0;
+  font-size: .82rem;
+}
+
+/* status LED, like a caps-lock indicator */
 .badge {
-  display: inline-block; padding: 4px 12px; border-radius: 999px;
-  background: #21262d; border: 1px solid var(--line); font-size: .8rem; color: var(--muted);
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 18px; padding: 6px 14px;
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--legend-2);
+  background: var(--cap-bot);
+  border: 1px solid var(--line);
+  border-radius: 4px;
 }
-.badge.live { color: var(--ok); border-color: var(--ok); }
-.badge.demo { color: var(--accent); border-color: var(--accent); }
+.badge::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--legend-2); box-shadow: 0 0 6px currentColor;
+}
+.badge.live::before { background: var(--ok);     color: var(--ok); }
+.badge.demo::before { background: var(--accent); color: var(--accent); }
+.badge.live { color: var(--ok); border-color: rgba(127,174,106,.4); }
+.badge.demo { color: var(--accent); border-color: rgba(224,167,46,.4); }
+
+/* ---- Layout ------------------------------------------------------------- */
 main {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  max-width: 960px; margin: 24px auto; padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  max-width: 940px;
+  margin: 26px auto;
+  padding: 0 18px;
 }
+
+/* ---- Cards rendered as keycaps ------------------------------------------ */
 .card {
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: 12px; padding: 18px;
+  background: linear-gradient(180deg, var(--cap-top), var(--cap-bot));
+  border: 1px solid var(--cap-shadow);
+  border-radius: 9px;
+  padding: 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),   /* top edge highlight */
+    0 4px 0 var(--cap-shadow),             /* the keycap's height */
+    0 8px 14px rgba(0,0,0,.35);
 }
 .card.wide { grid-column: 1 / -1; }
-.card h2 { margin: 0 0 14px; font-size: 1.05rem; }
-label { display: block; margin: 10px 0; font-size: .82rem; color: var(--muted); }
-code { background: #21262d; padding: 1px 6px; border-radius: 4px; color: #d2a8ff; }
-input, select, textarea {
-  width: 100%; margin-top: 4px; padding: 9px 10px; border-radius: 8px;
-  background: #0d1117; border: 1px solid var(--line); color: var(--fg);
-  font: inherit;
+
+.card h2 {
+  margin: 0 0 16px;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--legend-2);
+  display: flex; align-items: center; gap: 10px;
 }
+.card h2 .idx {
+  display: inline-grid; place-items: center;
+  width: 20px; height: 20px;
+  background: var(--case); border: 1px solid var(--line);
+  border-radius: 3px; color: var(--accent); font-size: .72rem;
+}
+
+/* ---- Form controls: recessed switch housings ---------------------------- */
+label {
+  display: block;
+  margin: 12px 0;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--legend-2);
+}
+code {
+  font-family: var(--mono);
+  background: var(--case);
+  border: 1px solid var(--line);
+  padding: 1px 6px; border-radius: 3px;
+  color: var(--accent); text-transform: none; letter-spacing: 0;
+}
+input, select, textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 11px;
+  font-family: var(--mono);
+  font-size: .86rem;
+  color: var(--legend);
+  background: var(--case);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.4);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.4), 0 0 0 2px rgba(224,167,46,.18);
+}
+textarea { resize: vertical; }
 .row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; }
 .row input, .row select { margin-top: 0; }
+
+/* ---- Buttons: pressable keycaps ----------------------------------------- */
 button {
-  margin-top: 12px; width: 100%; padding: 11px; border: 0; border-radius: 8px;
-  background: var(--accent); color: #fff; font-weight: 600; cursor: pointer;
+  margin-top: 16px;
+  width: 100%;
+  padding: 12px;
+  font-family: var(--mono);
+  font-size: .76rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: #211c08;
+  background: linear-gradient(180deg, #ecb845, var(--accent));
+  border: 1px solid var(--accent-d);
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.4),
+    0 4px 0 var(--accent-d),
+    0 6px 10px rgba(0,0,0,.35);
+  transition: transform .04s ease, box-shadow .04s ease;
 }
-button:hover { filter: brightness(1.1); }
+button:active {
+  transform: translateY(3px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 var(--accent-d);
+}
+
+/* ---- Lists -------------------------------------------------------------- */
 .list { display: flex; flex-direction: column; gap: 10px; }
 .item {
-  background: #0d1117; border: 1px solid var(--line); border-radius: 8px;
-  padding: 12px; font-size: .85rem;
+  background: var(--case);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 5px;
+  padding: 13px 14px;
+  font-size: .82rem;
 }
-.item b { color: var(--accent); }
-.item .meta { color: var(--muted); font-size: .78rem; margin-top: 4px; }
+.item b { color: var(--legend); font-weight: 700; }
+.item .meta {
+  color: var(--legend-2); font-size: .76rem; margin-top: 5px;
+  text-transform: none; letter-spacing: 0;
+}
 .pill {
-  background: var(--accent); color: #fff; border-radius: 999px;
-  padding: 1px 9px; font-size: .75rem; vertical-align: middle;
+  background: var(--accent); color: #211c08;
+  border-radius: 3px; padding: 1px 8px;
+  font-size: .72rem; font-weight: 700; margin-left: 4px;
 }
-.tag { display: inline-block; background: #21262d; border: 1px solid var(--line);
-  border-radius: 6px; padding: 1px 7px; margin: 2px 3px 0 0; font-size: .75rem; }
+.tag {
+  display: inline-block;
+  background: var(--cap-bot); border: 1px solid var(--line);
+  border-radius: 3px; padding: 1px 7px; margin: 3px 4px 0 0;
+  font-size: .72rem; color: var(--legend-2);
+}
 .ok { color: var(--ok); }
-pre { margin: 6px 0 0; white-space: pre-wrap; word-break: break-word; color: var(--muted); }
-footer { text-align: center; padding: 24px; color: var(--muted); border-top: 1px solid var(--line); }
-a { color: var(--accent); }
-@media (max-width: 680px) { main { grid-template-columns: 1fr; } }
+pre {
+  margin: 7px 0 0;
+  font-family: var(--mono); font-size: .76rem;
+  white-space: pre-wrap; word-break: break-word; color: var(--legend-2);
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+footer {
+  text-align: center; padding: 26px;
+  color: var(--legend-2); font-size: .78rem;
+  border-top: 1px solid var(--cap-shadow);
+  background: var(--plate);
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+@media (max-width: 680px) {
+  main { grid-template-columns: 1fr; }
+  header h1 { font-size: 1.3rem; letter-spacing: .28em; }
+}

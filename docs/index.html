@@ -3,19 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlowForge · PHP Workflow Automation</title>
+<title>FlowForge — PHP Workflow Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
-  <h1>⚙️ FlowForge</h1>
-  <p>A no-framework <b>PHP</b> engine that turns incoming events into automated workflows — match&nbsp;→&nbsp;transform&nbsp;→&nbsp;dispatch.</p>
-  <span id="mode" class="badge">checking backend…</span>
+  <h1>FlowForge</h1>
+  <p class="sub">A no-framework PHP engine that turns incoming events into automated workflows — match, transform, dispatch.</p>
+  <span id="mode" class="badge">checking backend</span>
 </header>
 
 <main>
   <section class="card">
-    <h2>1 · Define a workflow</h2>
+    <h2><span class="idx">1</span> Define a workflow</h2>
     <label>Name <input id="wf-name" value="Flag big EU payments"></label>
     <label>Trigger event
       <select id="wf-trigger">
@@ -31,7 +34,7 @@
           <option value="gt">&gt;</option>
           <option value="lt">&lt;</option>
           <option value="eq">=</option>
-          <option value="neq">≠</option>
+          <option value="neq">!=</option>
           <option value="contains">contains</option>
         </select>
         <input id="c-value" value="1000" placeholder="value">
@@ -43,11 +46,11 @@
     <label>Action — tag
       <input id="a-tag" value="high-value" placeholder="label">
     </label>
-    <button id="add-wf">+ Create workflow</button>
+    <button id="add-wf">Create workflow</button>
   </section>
 
   <section class="card">
-    <h2>2 · Fire a test event</h2>
+    <h2><span class="idx">2</span> Fire a test event</h2>
     <label>Type
       <select id="e-type">
         <option>payment.succeeded</option>
@@ -58,7 +61,7 @@
     <label>Payload (JSON)
       <textarea id="e-data" rows="5">{ "amount": 4200, "currency": "EUR", "email": "ana@acme.io" }</textarea>
     </label>
-    <button id="fire">⚡ Ingest event</button>
+    <button id="fire">Ingest event</button>
   </section>
 
   <section class="card wide">
@@ -73,8 +76,8 @@
 </main>
 
 <footer>
-  <p>PHP · REST API · MySQL-ready · vanilla JS frontend · seedable from Python.
-     Built by <b>Hritish Mahajan</b> · <a id="repo" href="#">source</a></p>
+  <p>PHP &middot; REST API &middot; MySQL-ready &middot; vanilla JS frontend &middot; seedable from Python<br>
+     Built by Hritish Mahajan &middot; <a id="repo" href="#">source</a></p>
 </footer>
 
 <script src="app.js"></script>
