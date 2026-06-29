@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowForge · PHP Workflow Automation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>⚙️ FlowForge</h1>
+  <p>A no-framework <b>PHP</b> engine that turns incoming events into automated workflows — match&nbsp;→&nbsp;transform&nbsp;→&nbsp;dispatch.</p>
+  <span id="mode" class="badge">checking backend…</span>
+</header>
+
+<main>
+  <section class="card">
+    <h2>1 · Define a workflow</h2>
+    <label>Name <input id="wf-name" value="Flag big EU payments"></label>
+    <label>Trigger event
+      <select id="wf-trigger">
+        <option>payment.succeeded</option>
+        <option>user.signup</option>
+        <option>order.created</option>
+      </select>
+    </label>
+    <label>Condition <code>field op value</code>
+      <div class="row">
+        <input id="c-field" value="amount" placeholder="field">
+        <select id="c-op">
+          <option value="gt">&gt;</option>
+          <option value="lt">&lt;</option>
+          <option value="eq">=</option>
+          <option value="neq">≠</option>
+          <option value="contains">contains</option>
+        </select>
+        <input id="c-value" value="1000" placeholder="value">
+      </div>
+    </label>
+    <label>Action — dispatch to webhook
+      <input id="a-url" value="https://httpbin.org/post" placeholder="https://...">
+    </label>
+    <label>Action — tag
+      <input id="a-tag" value="high-value" placeholder="label">
+    </label>
+    <button id="add-wf">+ Create workflow</button>
+  </section>
+
+  <section class="card">
+    <h2>2 · Fire a test event</h2>
+    <label>Type
+      <select id="e-type">
+        <option>payment.succeeded</option>
+        <option>user.signup</option>
+        <option>order.created</option>
+      </select>
+    </label>
+    <label>Payload (JSON)
+      <textarea id="e-data" rows="5">{ "amount": 4200, "currency": "EUR", "email": "ana@acme.io" }</textarea>
+    </label>
+    <button id="fire">⚡ Ingest event</button>
+  </section>
+
+  <section class="card wide">
+    <h2>Workflows <span id="wf-count" class="pill">0</span></h2>
+    <div id="workflows" class="list"></div>
+  </section>
+
+  <section class="card wide">
+    <h2>Run log</h2>
+    <div id="runs" class="list"></div>
+  </section>
+</main>
+
+<footer>
+  <p>PHP · REST API · MySQL-ready · vanilla JS frontend · seedable from Python.
+     Built by <b>Hritish Mahajan</b> · <a id="repo" href="#">source</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
