@@ -100,7 +100,57 @@ $('fire').onclick = async () => {
 // Set source link to wherever this is hosted.
 $('repo').href = 'https://github.com/hritishmahajan';
 
-(async () => { await detect(); await seed(); render(); })();
+// Replace native <select> elements with themed dropdowns. The real <select>
+// is kept hidden as the value source, so the rest of the app is unchanged.
+function enhanceSelects() {
+  document.querySelectorAll('main select').forEach((sel) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'sel';
+    sel.parentNode.insertBefore(wrap, sel);
+    wrap.appendChild(sel);
+
+    const btn = document.createElement('div');
+    btn.className = 'sel-btn';
+    btn.tabIndex = 0;
+    const label = document.createElement('span');
+    const car = document.createElement('span');
+    car.className = 'sel-car';
+    btn.append(label, car);
+
+    const list = document.createElement('div');
+    list.className = 'sel-list';
+    const sync = () => {
+      label.textContent = sel.options[sel.selectedIndex].text;
+      [...list.children].forEach((c, i) => c.classList.toggle('active', i === sel.selectedIndex));
+    };
+    [...sel.options].forEach((opt, i) => {
+      const o = document.createElement('div');
+      o.className = 'sel-opt';
+      o.textContent = opt.text;
+      o.addEventListener('click', () => {
+        sel.selectedIndex = i; sync();
+        wrap.classList.remove('open');
+        sel.dispatchEvent(new Event('change'));
+      });
+      list.appendChild(o);
+    });
+    const toggle = () => {
+      const willOpen = !wrap.classList.contains('open');
+      document.querySelectorAll('.sel.open').forEach((w) => w.classList.remove('open'));
+      wrap.classList.toggle('open', willOpen);
+    };
+    btn.addEventListener('click', toggle);
+    btn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+
+    wrap.append(btn, list);
+    sync();
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.sel')) document.querySelectorAll('.sel.open').forEach((w) => w.classList.remove('open'));
+  });
+}
+
+(async () => { enhanceSelects(); await detect(); await seed(); render(); })();
 
 // Pre-load one workflow so the dashboard isn't empty on first visit.
 async function seed() {

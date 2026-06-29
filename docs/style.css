@@ -167,6 +167,49 @@ textarea { resize: vertical; }
 .row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; }
 .row input, .row select { margin-top: 0; }
 
+/* ---- Custom themed dropdown (replaces native <select>) ------------------ */
+.sel { position: relative; width: 100%; }
+.sel select { display: none; }            /* native kept only for its value */
+.sel-btn {
+  position: relative;
+  margin-top: 8px;
+  padding: 8px 36px 8px 10px;
+  font-family: var(--body); font-size: 1.05rem;
+  text-transform: none; letter-spacing: 0;
+  color: var(--ink); background: #fff;
+  border: 3px solid var(--ink);
+  box-shadow: inset 3px 3px 0 var(--parch-d);
+  cursor: pointer; user-select: none;
+}
+.row .sel-btn { margin-top: 0; }
+.sel-btn:focus { outline: none; background: #fffbe8; box-shadow: inset 3px 3px 0 var(--parch-d), 0 0 0 3px var(--coin); }
+/* pixel caret drawn in CSS */
+.sel-car {
+  position: absolute; right: 12px; top: 50%;
+  width: 0; height: 0; transform: translateY(-50%);
+  border-left: 6px solid transparent; border-right: 6px solid transparent;
+  border-top: 8px solid var(--ink);
+}
+.sel.open .sel-car { border-top: 0; border-bottom: 8px solid var(--ink); }
+.sel-list {
+  display: none;
+  position: absolute; left: 0; right: 0; top: calc(100% + 5px); z-index: 30;
+  background: var(--parch);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 rgba(43,29,10,.45);
+}
+.sel.open .sel-list { display: block; }
+.sel-opt {
+  padding: 9px 12px;
+  font-family: var(--body); font-size: 1.05rem; color: var(--ink);
+  text-transform: none; letter-spacing: 0;
+  cursor: pointer;
+  border-bottom: 2px solid var(--parch-d);
+}
+.sel-opt:last-child { border-bottom: 0; }
+.sel-opt:hover { background: var(--block); }
+.sel-opt.active { background: var(--block); box-shadow: inset 4px 0 0 var(--brick); }
+
 /* ---- Buttons: bonk-able ? blocks ---------------------------------------- */
 button {
   margin-top: 20px;
